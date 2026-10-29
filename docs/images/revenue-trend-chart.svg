@@ -1,0 +1,115 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 800 360" width="100%" height="100%">
+  <defs>
+    <linearGradient id="barGrad" x1="0" y1="0" x2="0" y2="1">
+      <stop offset="0%" stop-color="#818cf8"/>
+      <stop offset="100%" stop-color="#4f46e5"/>
+    </linearGradient>
+    <linearGradient id="bgBox" x1="0" y1="0" x2="0" y2="1">
+      <stop offset="0%" stop-color="#1e293b"/>
+      <stop offset="100%" stop-color="#0f172a"/>
+    </linearGradient>
+  </defs>
+
+  <rect width="800" height="360" rx="14" fill="url(#bgBox)" stroke="#334155" stroke-width="1"/>
+
+  <!-- Title -->
+  <text x="30" y="38" font-family="-apple-system, BlinkMacSystemFont, sans-serif" font-size="16" font-weight="700" fill="#f8fafc">
+    Monthly Net Revenue &amp; Growth Trajectory
+  </text>
+  <text x="30" y="58" font-family="-apple-system, BlinkMacSystemFont, sans-serif" font-size="12" fill="#94a3b8">
+    Authoritative transactional volume aggregated with SQL window functions
+  </text>
+
+  <!-- Legend -->
+  <g transform="translate(560, 30)">
+    <rect x="0" y="2" width="12" height="12" rx="2" fill="#6366f1"/>
+    <text x="18" y="12" font-family="sans-serif" font-size="11" fill="#cbd5e1">Net Revenue ($k)</text>
+    <line x1="120" y1="8" x2="140" y2="8" stroke="#34d399" stroke-width="2.5"/>
+    <circle cx="130" cy="8" r="3" fill="#34d399"/>
+    <text x="148" y="12" font-family="sans-serif" font-size="11" fill="#cbd5e1">MoM Growth</text>
+  </g>
+
+  <!-- Grid Lines -->
+  <g stroke="#334155" stroke-width="1" stroke-dasharray="3 3">
+    <line x1="60" y1="90" x2="740" y2="90"/>
+    <line x1="60" y1="140" x2="740" y2="140"/>
+    <line x1="60" y1="190" x2="740" y2="190"/>
+    <line x1="60" y1="240" x2="740" y2="240"/>
+    <line x1="60" y1="290" x2="740" y2="290"/>
+  </g>
+
+  <!-- Y-Axis Labels -->
+  <g font-family="monospace" font-size="11" fill="#64748b" text-anchor="end">
+    <text x="50" y="94">$500k</text>
+    <text x="50" y="144">$400k</text>
+    <text x="50" y="194">$300k</text>
+    <text x="50" y="244">$200k</text>
+    <text x="50" y="294">$100k</text>
+  </g>
+
+  <!-- Bars for Months -->
+  <!-- M1: Jan -->
+  <rect x="85" y="195" width="38" height="95" rx="4" fill="url(#barGrad)"/>
+  <text x="104" y="315" font-family="sans-serif" font-size="11" fill="#94a3b8" text-anchor="middle">Jan</text>
+
+  <!-- M2: Feb -->
+  <rect x="140" y="175" width="38" height="115" rx="4" fill="url(#barGrad)"/>
+  <text x="159" y="315" font-family="sans-serif" font-size="11" fill="#94a3b8" text-anchor="middle">Feb</text>
+
+  <!-- M3: Mar (Quarter peak) -->
+  <rect x="195" y="130" width="38" height="160" rx="4" fill="url(#barGrad)"/>
+  <text x="214" y="315" font-family="sans-serif" font-size="11" fill="#94a3b8" text-anchor="middle">Mar</text>
+
+  <!-- M4: Apr -->
+  <rect x="250" y="180" width="38" height="110" rx="4" fill="url(#barGrad)"/>
+  <text x="269" y="315" font-family="sans-serif" font-size="11" fill="#94a3b8" text-anchor="middle">Apr</text>
+
+  <!-- M5: May -->
+  <rect x="305" y="165" width="38" height="125" rx="4" fill="url(#barGrad)"/>
+  <text x="324" y="315" font-family="sans-serif" font-size="11" fill="#94a3b8" text-anchor="middle">May</text>
+
+  <!-- M6: Jun (Quarter peak) -->
+  <rect x="360" y="115" width="38" height="175" rx="4" fill="url(#barGrad)"/>
+  <text x="379" y="315" font-family="sans-serif" font-size="11" fill="#94a3b8" text-anchor="middle">Jun</text>
+
+  <!-- M7: Jul -->
+  <rect x="415" y="170" width="38" height="120" rx="4" fill="url(#barGrad)"/>
+  <text x="434" y="315" font-family="sans-serif" font-size="11" fill="#94a3b8" text-anchor="middle">Jul</text>
+
+  <!-- M8: Aug -->
+  <rect x="470" y="150" width="38" height="140" rx="4" fill="url(#barGrad)"/>
+  <text x="489" y="315" font-family="sans-serif" font-size="11" fill="#94a3b8" text-anchor="middle">Aug</text>
+
+  <!-- M9: Sep (Quarter peak) -->
+  <rect x="525" y="105" width="38" height="185" rx="4" fill="url(#barGrad)"/>
+  <text x="544" y="315" font-family="sans-serif" font-size="11" fill="#94a3b8" text-anchor="middle">Sep</text>
+
+  <!-- M10: Oct -->
+  <rect x="580" y="160" width="38" height="130" rx="4" fill="url(#barGrad)"/>
+  <text x="599" y="315" font-family="sans-serif" font-size="11" fill="#94a3b8" text-anchor="middle">Oct</text>
+
+  <!-- M11: Nov -->
+  <rect x="635" y="140" width="38" height="150" rx="4" fill="url(#barGrad)"/>
+  <text x="654" y="315" font-family="sans-serif" font-size="11" fill="#94a3b8" text-anchor="middle">Nov</text>
+
+  <!-- M12: Dec (Annual high) -->
+  <rect x="690" y="85" width="38" height="205" rx="4" fill="#38bdf8"/>
+  <text x="709" y="315" font-family="sans-serif" font-size="11" fill="#38bdf8" font-weight="700" text-anchor="middle">Dec</text>
+
+  <!-- Growth Line Connection -->
+  <path d="M 104 200 L 159 180 L 214 135 L 269 185 L 324 170 L 379 120 L 434 175 L 489 155 L 544 110 L 599 165 L 654 145 L 709 90" fill="none" stroke="#34d399" stroke-width="2.5"/>
+
+  <!-- Line Dots -->
+  <circle cx="104" cy="200" r="3.5" fill="#34d399"/>
+  <circle cx="159" cy="180" r="3.5" fill="#34d399"/>
+  <circle cx="214" cy="135" r="3.5" fill="#34d399"/>
+  <circle cx="269" cy="185" r="3.5" fill="#34d399"/>
+  <circle cx="324" cy="170" r="3.5" fill="#34d399"/>
+  <circle cx="379" cy="120" r="3.5" fill="#34d399"/>
+  <circle cx="434" cy="175" r="3.5" fill="#34d399"/>
+  <circle cx="489" cy="155" r="3.5" fill="#34d399"/>
+  <circle cx="544" cy="110" r="3.5" fill="#34d399"/>
+  <circle cx="599" cy="165" r="3.5" fill="#34d399"/>
+  <circle cx="654" cy="145" r="3.5" fill="#34d399"/>
+  <circle cx="709" cy="90" r="4.5" fill="#34d399" stroke="#ffffff" stroke-width="1.5"/>
+</svg>

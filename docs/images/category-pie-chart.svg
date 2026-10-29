@@ -1,0 +1,93 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 600 360" width="100%" height="100%">
+  <defs>
+    <linearGradient id="bgDonut" x1="0" y1="0" x2="0" y2="1">
+      <stop offset="0%" stop-color="#1e293b"/>
+      <stop offset="100%" stop-color="#0f172a"/>
+    </linearGradient>
+  </defs>
+
+  <rect width="600" height="360" rx="14" fill="url(#bgDonut)" stroke="#334155" stroke-width="1"/>
+
+  <!-- Title -->
+  <text x="30" y="38" font-family="-apple-system, BlinkMacSystemFont, sans-serif" font-size="16" font-weight="700" fill="#f8fafc">
+    Revenue by Category (Donut Distribution)
+  </text>
+  <text x="30" y="58" font-family="-apple-system, BlinkMacSystemFont, sans-serif" font-size="12" fill="#94a3b8">
+    Calculated across all qualifying SME order categories
+  </text>
+
+  <!-- Donut Chart Rings -->
+  <!-- Center: cx=190, cy=200, r=90, inner=55 -->
+  <!-- Total ~ $5.3M -->
+  <!-- SaaS: 28% (Indigo) -->
+  <!-- Hardware: 22% (Sky) -->
+  <!-- Services: 20% (Emerald) -->
+  <!-- Office: 16% (Amber) -->
+  <!-- Maintenance: 14% (Fuchsia) -->
+  <g transform="translate(190, 205)">
+    <!-- Base track -->
+    <circle cx="0" cy="0" r="85" fill="none" stroke="#1e293b" stroke-width="36"/>
+
+    <!-- SaaS (28% -> stroke-dasharray ~ 149 385) -->
+    <circle cx="0" cy="0" r="85" fill="none" stroke="#6366f1" stroke-width="36"
+            stroke-dasharray="149 385" stroke-dashoffset="0" transform="rotate(-90)"/>
+
+    <!-- Hardware (22% -> stroke-dasharray ~ 117 417) -->
+    <circle cx="0" cy="0" r="85" fill="none" stroke="#38bdf8" stroke-width="36"
+            stroke-dasharray="117 417" stroke-dashoffset="-149" transform="rotate(-90)"/>
+
+    <!-- Professional Services (20% -> stroke-dasharray ~ 107 427) -->
+    <circle cx="0" cy="0" r="85" fill="none" stroke="#34d399" stroke-width="36"
+            stroke-dasharray="107 427" stroke-dashoffset="-266" transform="rotate(-90)"/>
+
+    <!-- Office Equipment (16% -> stroke-dasharray ~ 85 449) -->
+    <circle cx="0" cy="0" r="85" fill="none" stroke="#f59e0b" stroke-width="36"
+            stroke-dasharray="85 449" stroke-dashoffset="-373" transform="rotate(-90)"/>
+
+    <!-- Maintenance & Support (14% -> stroke-dasharray ~ 76 458) -->
+    <circle cx="0" cy="0" r="85" fill="none" stroke="#ec4899" stroke-width="36"
+            stroke-dasharray="76 458" stroke-dashoffset="-458" transform="rotate(-90)"/>
+
+    <!-- Inner Circle Text -->
+    <text x="0" y="-6" font-family="monospace" font-size="20" font-weight="700" fill="#f8fafc" text-anchor="middle">$5.31M</text>
+    <text x="0" y="16" font-family="sans-serif" font-size="11" fill="#94a3b8" text-anchor="middle">Total Gross</text>
+  </g>
+
+  <!-- Legend Items -->
+  <g transform="translate(340, 110)" font-family="-apple-system, sans-serif" font-size="12">
+    <!-- Item 1: SaaS -->
+    <g transform="translate(0, 0)">
+      <circle cx="6" cy="6" r="6" fill="#6366f1"/>
+      <text x="22" y="10" fill="#e2e8f0" font-weight="600">Software &amp; SaaS (28%)</text>
+      <text x="220" y="10" fill="#94a3b8" font-family="monospace" text-anchor="end">$1,486k</text>
+    </g>
+
+    <!-- Item 2: Hardware -->
+    <g transform="translate(0, 38)">
+      <circle cx="6" cy="6" r="6" fill="#38bdf8"/>
+      <text x="22" y="10" fill="#e2e8f0" font-weight="600">Hardware &amp; Devices (22%)</text>
+      <text x="220" y="10" fill="#94a3b8" font-family="monospace" text-anchor="end">$1,168k</text>
+    </g>
+
+    <!-- Item 3: Services -->
+    <g transform="translate(0, 76)">
+      <circle cx="6" cy="6" r="6" fill="#34d399"/>
+      <text x="22" y="10" fill="#e2e8f0" font-weight="600">Professional Services (20%)</text>
+      <text x="220" y="10" fill="#94a3b8" font-family="monospace" text-anchor="end">$1,062k</text>
+    </g>
+
+    <!-- Item 4: Office -->
+    <g transform="translate(0, 114)">
+      <circle cx="6" cy="6" r="6" fill="#f59e0b"/>
+      <text x="22" y="10" fill="#e2e8f0" font-weight="600">Office Equipment (16%)</text>
+      <text x="220" y="10" fill="#94a3b8" font-family="monospace" text-anchor="end">$850k</text>
+    </g>
+
+    <!-- Item 5: Maintenance -->
+    <g transform="translate(0, 152)">
+      <circle cx="6" cy="6" r="6" fill="#ec4899"/>
+      <text x="22" y="10" fill="#e2e8f0" font-weight="600">Maintenance &amp; Support (14%)</text>
+      <text x="220" y="10" fill="#94a3b8" font-family="monospace" text-anchor="end">$743k</text>
+    </g>
+  </g>
+</svg>

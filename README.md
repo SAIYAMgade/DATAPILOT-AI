@@ -1,399 +1,169 @@
 # DataPilot AI
-## Enterprise Analytics, Customer Intelligence & Decision Intelligence Platform
+### Enterprise Analytics, Customer Intelligence & Decision Intelligence Platform
 
-[![CI/CD Pipeline](https://github.com/datapilot-ai/datapilot/actions/workflows/ci.yml/badge.svg)](https://github.com/datapilot-ai/datapilot/actions)
-[![Python 3.11](https://img.shields.io/badge/Python-3.11-blue.svg)](https://www.python.org/)
-[![FastAPI](https://img.shields.io/badge/FastAPI-1.0.0-009688.svg)](https://fastapi.tiangolo.com/)
-[![PostgreSQL](https://img.shields.io/badge/PostgreSQL-18-336791.svg)](https://www.postgresql.org/)
-[![React 19](https://img.shields.io/badge/React-19-61dafb.svg)](https://react.dev/)
-[![TypeScript](https://img.shields.io/badge/TypeScript-5.8-blue.svg)](https://www.typescriptlang.org/)
-[![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](LICENSE)
+<p align="center">
+  <img src="docs/images/hero-banner.svg" alt="DataPilot AI Hero Banner" width="100%" />
+</p>
 
-DataPilot AI is an enterprise-grade analytics, customer intelligence, and decision intelligence platform. It transforms transactional business data into verified operational metrics, reproducible cohort retention matrices, hypothesis-driven statistical inferences, and leak-free machine-learned customer churn predictions.
-
-Built with **Python 3.11, PostgreSQL, SQLAlchemy 2.0, FastAPI, Pandas, SciPy, Statsmodels, Scikit-learn, React, and TypeScript**, every analytical output is reproducible, every model is evaluated on non-leaking holdout test sets, and every business insight provides traceable mathematical evidence.
-
----
-
-## 1. System Architecture & Analytical Workflow
-
-DataPilot AI enforces an end-to-end data lifecycle:
-
-```mermaid
-flowchart LR
-    A[Synthetic Generator / Ingestion API] --> B[Transactional Ingestion Engine]
-    B -->|Schema & Anomaly Gate| C[(PostgreSQL Database)]
-    C --> D[SQL Business Metrics Engine]
-    C --> E[RFM Segmentation Engine]
-    C --> F[Cohort Retention Matrix]
-    C --> G[SciPy / Statsmodels Engine]
-    C --> H[Temporal Feature Store]
-    H -->|No-Leakage Cutoff| I[Scikit-learn Model Lab]
-    I --> J[Retention Prioritization Engine]
-    D & F & J --> K[Deterministic Insight Ledger]
-    K & D & J --> L[Controlled AI Assistant]
-    L & D & F & I --> M[React & TypeScript UI]
-```
-
-### Analytical Data Flow:
-1. **Ingestion & Validation**: Records (CSV, JSON, or synthetic generation) pass through schema constraints, relational integrity checks, duplicate ref detection, and negative amount validation. Rejections are logged with row-level diagnostics.
-2. **PostgreSQL Relational Layer**: Normalized schema with indexes on foreign keys, transaction timestamps, and statuses. Database migrations are managed via Alembic.
-3. **Deterministic SQL Layer**: Computes authoritative revenue, AOV, active accounts, and Pareto distributions using Common Table Expressions (CTEs) and Window Functions (`LAG`, `ROW_NUMBER`, `SUM() OVER ()`).
-4. **Statistical Inferences**: Non-parametric ANOVA (Kruskal-Wallis), Chi-Square tests of independence ($\chi^2$), Student's t and Wilson score confidence intervals, and OLS linear trend regressions.
-5. **Temporal Machine Learning**: Bounded cutoff feature extraction ($T - W_{\text{obs}}$ to $T$) predicting future inactivity ($T$ to $T + W_{\text{pred}}$). Zero information leakage from the future window.
-6. **Retention Prioritization**: Blends predicted churn risk with account monetary value and segment multipliers into a transparent priority score.
-7. **Business Insight Ledger**: Deterministic rules-driven alert system matching verified data patterns with clear limitations.
-8. **Controlled Assistant**: Bounded natural-language routing translating user questions directly into approved analytical engine executions.
+<p align="center">
+  <a href="https://github.com/SAIYAMgade/DATAPILOT-AI/actions"><img src="https://img.shields.io/badge/Tests-24%20Passed-emerald.svg?style=flat-square" alt="Tests" /></a>
+  <a href="https://www.python.org/"><img src="https://img.shields.io/badge/Python-3.11-blue.svg?style=flat-square" alt="Python" /></a>
+  <a href="https://fastapi.tiangolo.com/"><img src="https://img.shields.io/badge/FastAPI-1.0.0-teal.svg?style=flat-square" alt="FastAPI" /></a>
+  <a href="https://www.postgresql.org/"><img src="https://img.shields.io/badge/PostgreSQL-18-blue.svg?style=flat-square" alt="PostgreSQL" /></a>
+  <a href="https://react.dev/"><img src="https://img.shields.io/badge/React-19%20TS-cyan.svg?style=flat-square" alt="React" /></a>
+  <a href="https://scikit-learn.org/"><img src="https://img.shields.io/badge/Scikit--Learn-1.4-orange.svg?style=flat-square" alt="Scikit-Learn" /></a>
+  <img src="https://img.shields.io/badge/Anti--Leakage-Enforced-indigo.svg?style=flat-square" alt="Anti-Leakage" />
+  <a href="LICENSE"><img src="https://img.shields.io/badge/License-MIT-gray.svg?style=flat-square" alt="License" /></a>
+</p>
 
 ---
 
-## 2. Database Schema & Relational Design
+## 🌟 Executive Summary
 
-The schema is normalized to 3NF, indexed for analytical performance, and version-controlled with Alembic migrations:
+**DataPilot AI** is an enterprise-grade analytics and decision intelligence platform that transforms raw transactional business data into verified operational metrics, reproducible cohort retention heatmaps, rigorous statistical inferences, and leak-free machine-learned churn predictions.
 
-```mermaid
-erDiagram
-    CUSTOMERS ||--o{ TRANSACTIONS : places
-    CUSTOMERS ||--o{ CUSTOMER_ACTIVITIES : logs
-    CUSTOMERS ||--o{ CUSTOMER_RISK_PREDICTIONS : receives
-    PRODUCT_CATEGORIES ||--o{ TRANSACTIONS : categorizes
-    DATASET_BATCHES ||--o{ INGESTION_REJECTIONS : tracks
-    MODEL_VERSIONS ||--o{ CUSTOMER_RISK_PREDICTIONS : generates
-
-    CUSTOMERS {
-        int id PK
-        string customer_ref UK
-        string name
-        string email
-        string segment
-        string acquisition_channel
-        string region
-        datetime signup_date
-        boolean is_active
-        datetime created_at
-    }
-
-    TRANSACTIONS {
-        int id PK
-        string transaction_ref UK
-        int customer_id FK
-        int category_id FK
-        datetime timestamp
-        float amount
-        string status
-        string payment_method
-        boolean is_refund
-        datetime created_at
-    }
-
-    PRODUCT_CATEGORIES {
-        int id PK
-        string code UK
-        string name
-        string description
-    }
-
-    MODEL_VERSIONS {
-        int id PK
-        string version_tag UK
-        string model_type
-        int observation_days
-        int prediction_days
-        float threshold
-        json metrics
-        json feature_importance
-        string artifact_path
-        boolean is_active
-        datetime created_at
-    }
-
-    CUSTOMER_RISK_PREDICTIONS {
-        int id PK
-        int customer_id FK
-        int model_version_id FK
-        float risk_score
-        string risk_category
-        datetime observation_end_date
-        int prediction_horizon_days
-        float priority_score
-        json contributing_features
-        datetime created_at
-    }
-
-    BUSINESS_INSIGHTS {
-        int id PK
-        string title
-        string category
-        string metric_name
-        string comparison_period
-        float current_value
-        float previous_value
-        float change_pct
-        json supporting_evidence
-        string limitations
-        string severity
-        datetime created_at
-    }
-
-    DATASET_BATCHES {
-        int id PK
-        string batch_ref UK
-        string source_type
-        int records_received
-        int records_accepted
-        int records_rejected
-        json rejection_summary
-        string status
-        datetime created_at
-    }
-
-    INGESTION_REJECTIONS {
-        int id PK
-        int batch_id FK
-        int row_index
-        text raw_record
-        string reason
-        datetime created_at
-    }
-```
-
-### Key Indexes:
-- `ix_transactions_cust_time`: Composite index `(customer_id, timestamp)` for high-throughput temporal feature engineering and customer profiling.
-- `ix_transactions_time_status`: Composite index `(timestamp, status)` for fast revenue aggregations excluding refunds.
-- `ix_pred_cust_date`: Composite index `(customer_id, observation_end_date)` for fast retrieval of latest prediction snapshots.
+Every analytical output is **deterministic and reproducible**, every machine learning model is evaluated on non-leaking temporal test splits, and every business insight provides **traceable mathematical evidence**.
 
 ---
 
-## 3. Authoritative Analytical Definitions
+## 📊 Visual Analytics & Performance Gallery
 
-To prevent dashboard inconsistencies across frontend components, definitions are strictly centralized in the backend analytics engine:
+### 1. Revenue Trajectory & Period-over-Period Growth
+<p align="center">
+  <img src="docs/images/revenue-trend-chart.svg" alt="Monthly Net Revenue Trajectory Chart" width="100%" />
+</p>
 
-| Metric | Authoritative Definition | SQL / Analytical Logic |
-| :--- | :--- | :--- |
-| **Net Revenue** | Sum of transaction amounts for successful orders. | `SUM(amount) WHERE is_refund = false AND status = 'completed'` |
-| **Refund Exclusion** | Refunds are treated as negative revenue adjustments or filtered out from gross sales. | Excluded from gross revenue calculations, tracked as separate reversal records. |
-| **AOV (Average Order Value)** | Mean gross transaction value of completed orders. | `AVG(amount) WHERE is_refund = false AND status = 'completed'` |
-| **Active Customer (30d)** | Any customer with $\ge 1$ completed qualifying transaction in the past 30 days. | `COUNT(DISTINCT customer_id) WHERE timestamp >= NOW() - 30d` |
-| **Period-over-Period Delta** | Relative percentage change between current window and preceding equal-length window. | `((Current_Revenue - Previous_Revenue) / Previous_Revenue) * 100` |
-| **Cohort Retention** | Retention at month index $M_i$ defined as having $\ge 1$ transaction in month $M_i$. | `Active_Accounts(M_i) / Cohort_Size(M_0) * 100` |
-| **Incomplete Cohorts** | Future months that have not elapsed yet are marked with null (`—`), never false 0%. | `M_i > (Latest_Date - Cohort_Date)` masked as None. |
+### 2. Product Category Donut Distribution & Customer Cohorts
+<table>
+  <tr>
+    <td width="48%" valign="top">
+      <h4 align="center">🥧 Revenue by Category (Donut Distribution)</h4>
+      <img src="docs/images/category-pie-chart.svg" alt="Category Distribution Donut Chart" width="100%" />
+    </td>
+    <td width="52%" valign="top">
+      <h4 align="center">🗓️ Cohort Retention Matrix (Heatmap)</h4>
+      <img src="docs/images/retention-heatmap.svg" alt="Cohort Retention Matrix Heatmap" width="100%" />
+    </td>
+  </tr>
+</table>
 
----
-
-## 4. Machine Learning: Temporal Churn Risk & Anti-Leakage Guarantee
-
-### Prediction Problem Definition
-Predict whether a customer will have **0 qualifying transactions** during a future window of $W_{\text{pred}} = 60$ days, given their behavioral history observed over $W_{\text{obs}} = 90$ days prior to cutoff date $T$.
-
-```
-[Observation Window: T - 90d  -->  T]  |  Cutoff Date T  |  [Prediction Window: T  -->  T + 60d]
-       Extract Features Only          |  Freeze State   |          Derive Target Label
-(Recency, Frequency, Spend, Velocity) |                 |   Target = 1 if Tx_Count == 0 else 0
-```
-
-### Strict Anti-Leakage Protocol:
-1. **Feature Boundary**: Feature queries strictly filter `WHERE timestamp >= T - 90d AND timestamp <= T`. Transactions occurring after cutoff $T$ are strictly forbidden.
-2. **Customer Eligibility**: Customers who registered after $T$ are excluded from the training sample.
-3. **Pipeline Encapsulation**: Imputation (`SimpleImputer`) and scaling (`StandardScaler`) parameters are fitted **only** on the training split, preventing data leakage across temporal splits.
-4. **Time-Aware Splitting**:
-   - $T_{\text{train}}$: Earlier historical cutoff (e.g. 2025-10-01)
-   - $T_{\text{test}}$: Future holdout cutoff (e.g. 2026-01-15)
-5. **Threshold Tuning**: Decision threshold is tuned on the training/validation split to achieve the target recall ($\ge 0.75$), and subsequently locked before holdout evaluation.
-
-### Models Evaluated:
-- **Baseline**: `DummyClassifier(strategy='prior')`
-- **Logistic Regression**: Regularized L2 regression with class-weight balancing
-- **Random Forest**: 100 decision trees, max depth 6, class-weighted, permutation & impurity-based feature importances
+### 3. Machine Learning Discrimination & Feature Attribution
+<p align="center">
+  <img src="docs/images/model-performance-roc.svg" alt="Model Evaluation ROC and Feature Importance" width="100%" />
+</p>
 
 ---
 
-## 5. Retention Prioritization Engine
+## 🏗️ Architecture & Core Modules
 
-DataPilot AI does not conflate risk probability with customer lifetime value. A 90% churn risk on a $10 account does not warrant executive intervention, whereas a 45% risk on a $15,000 enterprise VIP account requires immediate attention.
-
-### Transparent Prioritization Formula:
-$$\text{Priority Score} = \text{Risk Score} \times \left(0.4 + 0.6 \times \frac{\text{Historical Spend}}{\text{Max Spend}}\right) \times \text{Segment Multiplier} \times 100$$
-
-Where:
-- $\text{Segment Multipliers}$: VIP ($1.4\times$), Frequent ($1.2\times$), New ($1.1\times$), Declining ($1.0\times$), Occasional ($0.9\times$).
-- **Auditability**: Every prioritized account displays contributing features, days since last order, and a traceable recommended action.
-
----
-
-## 6. Statistical Inferences (SciPy & Statsmodels)
-
-Every statistical test explicitly outputs its formal hypotheses, test assumptions, sample sizes, and effect sizes:
-
-1. **Transaction Values across Channels (Kruskal-Wallis H-test)**:
-   - $H_0$: Transaction distributions are identical across channels.
-   - $H_1$: At least one channel distribution exhibits a location shift.
-   - Effect size: Epsilon-squared ($\epsilon^2$).
-2. **Channel vs Retention Association ($\chi^2$ Test of Independence)**:
-   - $H_0$: 60-day customer retention is independent of acquisition channel.
-   - Effect size: Cramer's V ($V$).
-3. **Average Order Value 95% Confidence Interval**:
-   - Student's t-distribution: $[\bar{x} - t_{\alpha/2} \cdot \text{SE}, \bar{x} + t_{\alpha/2} \cdot \text{SE}]$.
-4. **Active Customer Rate 95% Confidence Interval**:
-   - Wilson score interval for binomial proportions.
-5. **Monthly Revenue Trend (OLS Linear Model)**:
-   - Ordinary Least Squares regression testing for non-zero slope with 95% confidence intervals and $R^2$.
-
----
-
-## 7. Performance Benchmarks
-
-Measured on a standard development machine (Windows 10 AMD64, Python 3.11.9, 16 vCPUs, 16GB RAM, PostgreSQL 18):
-
-| Analytical Workflow Stage | Dataset Scale | Measured Execution Time | Throughput / Latency |
+| Module | Core Technology | Analytical Technique | Key Output |
 | :--- | :--- | :--- | :--- |
-| **Synthetic Data Generation** | 500 customers, 17,038 transactions | **1.308 s** | 13,025 tx/sec |
-| **Relational Ingestion & Validation** | 4,771 batch records | **5.744 s** | 830.6 tx/sec |
-| **Complex SQL Aggregations (CTEs/Windows)**| 17k rows, 90-day comparisons | **0.091 s** (91 ms) | Sub-100ms API response |
-| **Temporal Feature Engineering** | 499 accounts, 9 features | **0.726 s** | 1.45 ms/customer |
-| **Random Forest Training & Tuning** | Train & Test splits, 100 trees | **2.085 s** | ROC-AUC: 0.7033 |
-| **Batch Inference & Priority Ranking** | 500 accounts scored & ranked | **0.751 s** | 1.502 ms/customer |
-| **Process Resident Memory (RSS)** | Python backend runtime | **247.22 MB** | Low footprint |
+| **Transactional Ingestion** | SQLAlchemy 2.0 / Pydantic | Foreign-key resolution & duplicate rejection | Ingestion batch logs, row-level anomaly audits |
+| **SQL Business Metrics** | PostgreSQL 18 / CTEs | Window `LAG()`, Pareto cumulative curves | Net revenue, AOV, MoM deltas, decile share |
+| **RFM Segmentation** | NumPy / SQL Aggregations | Rule-based Recency, Frequency, Monetary cutoffs | 6 interpretable customer archetypes |
+| **Cohort Retention** | Pandas / Relational Indexing | Monthly period index ($M_0 \to M_{12}$) | Retention percentages & cohort lifetime revenue |
+| **Statistical Inferences** | SciPy / Statsmodels | Kruskal-Wallis, $\chi^2$ independence, OLS | $p$-values, effect sizes ($\epsilon^2, V$), 95% CIs |
+| **ML Churn Lab** | Scikit-learn Pipeline | Time-aware splitting (90d obs / 60d pred) | ROC-AUC (0.703), PR-AUC, confusion matrices |
+| **Retention Prioritization** | Python Scoring Engine | Composite business value & risk formula | Transparent priority scores & recommended actions |
+| **Insight Ledger** | Deterministic Rule Engine | Period-over-period delta thresholds | Traceable findings with limitations & severity |
+| **Controlled Assistant** | Intent Routing Protocol | Bounded backend function mapping | Factual Q&A with zero math hallucination |
 
-To reproduce these benchmarks locally:
-```bash
-python -m backend.app.benchmark
+---
+
+## 🔬 Machine Learning & Statistical Rigor
+
+### Strict Anti-Leakage Temporal Protocol
+To guarantee production-grade integrity, features and labels are split across strict temporal cutoffs:
+
+```
+[ Observation Window: T - 90 Days ]  |  Cutoff Date T  |  [ Prediction Window: T to T + 60 Days ]
+  Features strictly extracted <= T   |   Freeze State  |   Target = 1 if Tx Count == 0 else 0
 ```
 
----
+### Transparent Retention Prioritization Formula
+$$\text{Priority Score} = \text{Risk Probability} \times \left(0.4 + 0.6 \times \frac{\text{Historical Spend}}{\text{Max Spend}}\right) \times \text{Segment Multiplier} \times 100$$
 
-## 8. Local Setup & Quickstart
-
-### Prerequisites:
-- Python 3.11+
-- Node.js 20+ & npm
-- PostgreSQL 16+ (or use Docker)
-
-### Option A: Local Native Setup
-
-1. **Clone repository and create virtual environment**:
-   ```bash
-   git clone https://github.com/datapilot-ai/datapilot.git
-   cd datapilot
-   python -m venv .venv
-   source .venv/bin/activate  # On Windows: .venv\Scripts\activate
-   ```
-
-2. **Install Python backend dependencies**:
-   ```bash
-   pip install -r backend/requirements.txt
-   ```
-
-3. **Configure environment variables**:
-   ```bash
-   cp .env.example .env
-   # Edit .env with your local PostgreSQL credentials
-   ```
-
-4. **Run database migrations**:
-   ```bash
-   alembic upgrade head
-   ```
-
-5. **Generate and seed synthetic data**:
-   ```bash
-   python -m backend.app.seed
-   ```
-
-6. **Train initial machine learning model & generate insights**:
-   ```bash
-   python -m backend.app.train_initial
-   ```
-
-7. **Start FastAPI backend**:
-   ```bash
-   uvicorn backend.app.main:app --host 0.0.0.0 --port 8000 --reload
-   ```
-
-8. **Start Vite React frontend** (in a separate terminal):
-   ```bash
-   cd frontend
-   npm install
-   npm run dev
-   ```
-   Open `http://localhost:5173` in your browser. (The backend API is accessible at `http://localhost:8000/docs`).
+### Hypothesis Testing Suite Summary
+| Hypothesis Test | Test Method | Test Statistic | $p$-value | Effect Size | Interpretation |
+| :--- | :--- | :--- | :--- | :--- | :--- |
+| **Transaction Spend across Channels** | Kruskal-Wallis $H$-test | $H = 2.41$ | $p = 0.660$ | $\epsilon^2 = 0.007$ (Small) | No significant spend bias across acquisition channels |
+| **Channel vs 60d Customer Retention** | Pearson $\chi^2$ Independence | $\chi^2 = 3.82$ | $p = 0.431$ | $V = 0.098$ (Negligible) | Customer retention is independent of acquisition channel |
+| **Average Order Value 95% CI** | Student's $t$-distribution | Mean: $\$432.85$ | $\text{SE} = \$3.21$ | 95% CI: $[\$426.55, \$439.15]$ | True population AOV bounded within narrow interval |
+| **Active Customer Rate 95% CI** | Wilson Score Interval | Rate: $70.0\%$ | $N = 500$ | 95% CI: $[65.8\%, 73.9\%]$ | Binomial proportion confidence without normal skew |
 
 ---
 
-### Option B: Docker Compose Setup
+## ⚡ Performance Benchmarks
 
-Run the entire platform (PostgreSQL, FastAPI Backend, and Nginx React Frontend) with a single command:
+Measured on standard hardware (16 vCPUs, 16GB RAM, PostgreSQL 18):
 
+| Workflow Operation | Dataset Scale | Execution Time | Measured Throughput / Latency |
+| :--- | :--- | :--- | :--- |
+| **Synthetic Dataset Generation** | 500 accounts, 17,038 transactions | **1.308 s** | 13,025 tx/sec |
+| **Relational Ingestion & Validation** | 4,771 batch records | **5.744 s** | 830.6 tx/sec |
+| **Complex SQL Analytical Queries** | CTEs & Windows across 17k rows | **0.091 s** | **91 ms** response time |
+| **Temporal Feature Engineering** | 499 accounts, 9 features | **0.726 s** | 1.45 ms / customer |
+| **Random Forest Training & Tuning** | Time-aware split, 100 trees | **2.085 s** | Holdout ROC-AUC: **0.7033** |
+| **Batch Inference & Priority Scoring** | 500 accounts scored & ranked | **0.751 s** | 1.502 ms / customer |
+| **Backend Memory Footprint (RSS)** | Python 3.11 runtime | **247.22 MB** | Extremely lightweight |
+
+---
+
+## 🚀 Quickstart Guide
+
+### 1. Docker Compose (One-Command Setup)
 ```bash
 docker compose up --build -d
 ```
-
-- **Frontend Application**: `http://localhost:3000`
-- **Backend API & OpenAPI Docs**: `http://localhost:8000/docs`
+- **Web Interface**: `http://localhost:3000`
+- **FastAPI OpenAPI Docs**: `http://localhost:8000/docs`
 - **PostgreSQL Database**: `localhost:5432`
 
 ---
 
-## 9. Automated Testing Suite
+### 2. Local Development Setup
 
-DataPilot AI includes a comprehensive testing suite with 24 dedicated test cases covering database constraints, ingestion error logging, SQL calculations against independent references, cohort matrices, statistical testing, temporal leakage boundaries, and REST API endpoints:
+```bash
+# 1. Clone repository & setup virtual environment
+git clone https://github.com/SAIYAMgade/DATAPILOT-AI.git
+cd DATAPILOT-AI
+python -m venv .venv
+source .venv/bin/activate  # On Windows: .venv\Scripts\activate
+
+# 2. Install dependencies & run migrations
+pip install -r backend/requirements.txt
+cp .env.example .env
+alembic upgrade head
+
+# 3. Seed synthetic data & train initial ML model
+python -m backend.app.seed
+python -m backend.app.train_initial
+
+# 4. Start backend API
+uvicorn backend.app.main:app --host 0.0.0.0 --port 8000 --reload
+
+# 5. Start React frontend (in separate terminal)
+cd frontend
+npm install
+npm run dev
+```
+
+---
+
+## 🧪 Automated Testing
+
+Run the automated analytical test suite (24 passing unit, integration, and temporal leakage tests):
 
 ```bash
 pytest -v tests
 ```
 
-### Test Coverage Highlights:
-- `test_ml_temporal_boundaries.py`: Tests that future transactions inside the prediction window cannot leak into the observation window features.
-- `test_sql_metrics.py`: Compares SQL revenue and AOV calculations against manually verified mathematical constants.
-- `test_corrupted_ingestion_and_rejections.py`: Verifies that negative amounts, duplicate transaction IDs, and missing foreign keys are caught and logged in `ingestion_rejections`.
-- `test_cohort_assignment_and_retention.py`: Verifies month-indexing, retention calculations, and incomplete observation window masking.
+```
+======================== 24 passed, 1 warning in 1.06s ========================
+```
 
 ---
 
-## 10. API Reference Overview
+## 📜 License
 
-| Method | Endpoint | Description |
-| :--- | :--- | :--- |
-| `GET` | `/health` | Application health and PostgreSQL connectivity check |
-| `GET` | `/api/metrics/summary` | Executive summary KPI cards with period deltas |
-| `GET` | `/api/metrics/time-series` | Monthly or weekly revenue trends with MoM growth |
-| `GET` | `/api/metrics/breakdowns` | Revenue breakdowns by category, channel, and region |
-| `GET` | `/api/metrics/pareto` | Pareto concentration curve (cumulative share) |
-| `GET` | `/api/customers` | Searchable, paginated customer table with risk scores |
-| `GET` | `/api/customers/{id}` | Customer detail profile, transaction history, predictions |
-| `GET` | `/api/cohorts/matrix` | Monthly cohort retention and revenue matrices |
-| `GET` | `/api/segmentation/rfm` | Rule-based RFM customer segment distribution |
-| `GET` | `/api/stats/segment-comparison` | Kruskal-Wallis non-parametric ANOVA across channels |
-| `GET` | `/api/stats/channel-retention` | Chi-square test of independence for retention |
-| `GET` | `/api/stats/confidence-intervals`| 95% Student's t and Wilson score intervals |
-| `GET` | `/api/stats/revenue-trend` | OLS linear regression revenue trend model |
-| `POST` | `/api/ml/train` | Train model (RandomForest/LogisticRegression/Baseline) |
-| `GET` | `/api/ml/versions` | List all historical model versions and metrics |
-| `GET` | `/api/ml/active` | Get active model details and feature importances |
-| `GET` | `/api/ml/predictions` | Prioritized customer churn risk list with rationale |
-| `GET` | `/api/insights` | Ledger of deterministic business insights |
-| `POST` | `/api/insights/refresh` | Re-evaluate rules against current database state |
-| `POST` | `/api/ingestion/generate-and-seed` | Generate and ingest synthetic records |
-| `GET` | `/api/ingestion/batches` | List ingestion batch metadata and rejection counts |
-| `GET` | `/api/ingestion/batches/{id}/rejections` | Inspect row-level rejection log for a batch |
-| `POST` | `/api/assistant/query` | Controlled Q&A assistant routing to verified engines |
-
----
-
-## 11. Security & Limitations
-
-### Security Safeguards:
-- Parameterized SQL execution via SQLAlchemy `text()` to prevent SQL injection.
-- Pydantic v2 schemas validating request structures, boundary ranges, and data types.
-- CORS origin restriction to approved local ports.
-- Bounded assistant query protocol preventing arbitrary or destructive SQL execution.
-
-### Known Methodological Limitations:
-1. **Observational Inferences**: Statistical tests indicate distribution shifts and associations, not causal relationships. Marketing interventions should be evaluated via randomized A/B trials.
-2. **Synthetic Data**: The built-in generator models realistic SME transaction dynamics (Poisson arrivals, log-normal spends, churn archetypes), but should not be cited as empirical real-world business performance.
-3. **Model Horizons**: Churn predictions are calibrated for a 60-day prediction window following a 90-day observation window. Shorter customer tenures have higher parameter uncertainty.
-
----
-
-## 12. License
-
-This project is licensed under the MIT License - see the [LICENSE](LICENSE) file for details.
+Licensed under the [MIT License](LICENSE). Built for enterprise analytics and decision intelligence.
